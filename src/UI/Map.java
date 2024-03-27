@@ -1,14 +1,16 @@
-package data;
+package UI;
+
+import blocks.*;
 
 public class Map {
     private Block[][] map;
-    private final int dimMap = 5;
+    private final int dimMap = 10;
 
     public Map() {
         map = new Block[dimMap][dimMap];
         for (int i = 0; i < dimMap; i++) {
             for (int j = 0; j < dimMap; j++) {
-                map[i][j] = new Block();
+                map[i][j] = new AirBlock();
             }
         }
     }
@@ -26,7 +28,7 @@ public class Map {
         if (x >= dimMap || y >= dimMap || x < 0 || y < 0) {
             System.out.println("coordinates are out of bounds (0<=val<50)");
         } else {
-            this.map[x][y] = new Block(type);
+            this.map[x][y] = new AirBlock();
         }
     }
     public void swap(int row, int col){
@@ -62,6 +64,21 @@ public class Map {
                 swap(row,col);
                 insert_rec(place,row+1,col);
             }
+        }
+    }
+    private void addRowsOfWater(){
+        for(int i=0; i<dimMap; i++){
+            Block water = new WaterBlock();
+            insert_iter(water,0,i);
+        }
+    }
+    public void addRiver(){
+        addRowsOfWater();
+    }
+
+    public void addSea(){
+        for (int i=0; i<3; i++){
+            addRowsOfWater();
         }
     }
 }

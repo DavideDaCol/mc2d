@@ -1,21 +1,16 @@
-package data;
+package blocks;
 
-public class Block {
+public class AirBlock implements Block {
     private char content;
     private boolean falls_with_gravity;
     private boolean fall_through;
 
-    public Block() {
+    public AirBlock() {
         this.content = '.';
         this.falls_with_gravity=false;
         this.fall_through=true;
     }
 
-    public Block(char input) {
-        this.content = input;
-        this.falls_with_gravity=true;
-        this.fall_through=false;
-    }
 
     public char display() {
         return this.content;
