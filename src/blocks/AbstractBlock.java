@@ -4,7 +4,7 @@ public abstract class AbstractBlock implements Block {
     protected char content;
     protected boolean falls_with_gravity;
     protected boolean fall_through;
-    protected String blocktype;
+    protected String blockname;
     public AbstractBlock(){
 
     }
@@ -21,8 +21,7 @@ public abstract class AbstractBlock implements Block {
         return this.fall_through;
     }
 
-    @Override
-    public String toString() {
-        return this.blocktype;
+    public String toString(){
+        return this.blockname+" ["+this.content+"]";
     }
 }

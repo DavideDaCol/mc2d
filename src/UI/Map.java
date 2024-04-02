@@ -1,38 +1,40 @@
 package UI;
 
 import blocks.*;
+import java.util.Random;
 
 public class Map {
-    private Block[][] map;
-    private final int dimMap = 10;
+    protected Block[][] map;
+    protected final int DIM_ROWS = 10;
+    protected final int DIM_COLS = 10;
 
     public Map() {
-        map = new Block[dimMap][dimMap];
-        for (int i = 0; i < dimMap; i++) {
-            for (int j = 0; j < dimMap; j++) {
+        map = new Block[DIM_ROWS][DIM_COLS];
+        for (int i = 0; i < DIM_ROWS; i++) {
+            for (int j = 0; j < DIM_COLS; j++) {
                 map[i][j] = new AirBlock();
             }
         }
     }
 
     public void display_on_out() {
-        for (int i = 0; i < dimMap; i++) {
-            for (int j = 0; j < dimMap; j++) {
+        for (int i = 0; i < DIM_ROWS; i++) {
+            for (int j = 0; j < DIM_COLS; j++) {
                 System.out.print(this.map[i][j].display() + " ");
             }
             System.out.println();
         }
     }
 
-    public void change_cell(int x, int y, char type) {
-        if (x >= dimMap || y >= dimMap || x < 0 || y < 0) {
+    public void change_cell(int x, int y) {
+        if (x >= DIM_ROWS || y >= DIM_COLS || x < 0 || y < 0) {
             System.out.println("coordinates are out of bounds (0<=val<50)");
         } else {
             this.map[x][y] = new AirBlock();
         }
     }
     public void swap(int row, int col){
-        if (row > dimMap-1 || col > dimMap || row < 0 || col < 0) {
+        if (row > DIM_ROWS-1 || col > DIM_COLS || row < 0 || col < 0) {
             System.out.println("swap is out of bounds");
         } else {
             Block appo = this.map[row][col];
@@ -40,36 +42,34 @@ public class Map {
             this.map[row+1][col] = appo;
         }
     }
-    public void insert_iter(Block place, int p1, int p2){
-        int row = p1;
-        int col = p2;
-        if (row >= dimMap || col >= dimMap || row < 0 || col < 0) {
-            System.out.println("coordinates are out of bounds (0<=val<" + dimMap +")");
+    public void insert(Block place, int row, int col){
+        if (row >= DIM_ROWS || col >= DIM_COLS || row < 0 || col < 0) {
+            System.out.println("coordinates are out of bounds");
         } else {
             this.map[row][col] = place;
+            move(row,col);
+            for(int i =0; i<DIM_ROWS; i++){
+                move(row,i);
+            }
+        }
+    }
+    public void move(int row, int col){
+        if (row >= DIM_ROWS || col >= DIM_COLS || row < 0 || col < 0) {
+            System.out.println("coordinates are out of bounds");
+        } else {
             if(this.map[row][col].getGravity()){
-                while((row<dimMap-1)&&(this.map[row+1][col].getThrough())){
+                while((row<DIM_ROWS-1)&&(this.map[row+1][col].getThrough())){
                     swap(row,col);
                     row++;
                 }
             }
         }
     }
-    public void insert_rec(Block place, int row, int col){
-        if (row >= dimMap || col >= dimMap || row < 0 || col < 0) {
-            System.out.println("coordinates are out of bounds (0<=val<" + dimMap +")");
-        } else {
-            this.map[row][col] = place;
-            if(row<dimMap-1&&this.map[row][col].getGravity()&&this.map[row+1][col].getThrough()){
-                swap(row,col);
-                insert_rec(place,row+1,col);
-            }
-        }
-    }
+
     private void addRowsOfWater(){
-        for(int i=0; i<dimMap; i++){
+        for(int i=0; i<DIM_ROWS; i++){
             Block water = new WaterBlock();
-            insert_iter(water,0,i);
+            insert(water,0,i);
         }
     }
     public void addRiver(){
@@ -79,6 +79,22 @@ public class Map {
     public void addSea(){
         for (int i=0; i<3; i++){
             addRowsOfWater();
+        }
+    }
+    public boolean isSmeltable(int row, int col){
+        return this.map[row][col] instanceof SmeltableBlock;
+    }
+    public SmeltableBlock smeltableBlockPos(int row, int col){
+        return (SmeltableBlock)this.map[row][col];
+    }
+    public void randFill(){
+        Random rand = new Random();
+        int filler = 1+rand.nextInt(DIM_COLS*DIM_ROWS);
+        for (int i = 0 ; i < filler; i++){
+            Block b = new SandBlock();
+            int row = rand.nextInt(DIM_ROWS);
+            int col = rand.nextInt(DIM_COLS);
+            insert(b,row,col);
         }
     }
 }
