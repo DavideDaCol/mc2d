@@ -91,10 +91,20 @@ public class Map {
         Random rand = new Random();
         int filler = 1+rand.nextInt(DIM_COLS*DIM_ROWS);
         for (int i = 0 ; i < filler; i++){
-            Block b = new SandBlock();
+            Block b = new SandBlock();;
             int row = rand.nextInt(DIM_ROWS);
             int col = rand.nextInt(DIM_COLS);
+            int choose = rand.nextInt(2); //randomizes block choice, 0 is sand 1 is iron
+            if(choose==1){
+                b = new RawIronBlock();
+            }
             insert(b,row,col);
         }
+    }
+    public boolean isPickable(int row, int col){
+        return this.map[row][col].is_pickable();
+    }
+    public Block gimme_pickable(int row, int col){
+        return this.map[row][col];
     }
 }
