@@ -49,7 +49,7 @@ public class Map {
             this.map[row][col] = place;
             move(row,col);
             for(int i =0; i<DIM_ROWS; i++){
-                move(row,i);
+                move(i,row);
             }
         }
     }
@@ -81,10 +81,10 @@ public class Map {
             addRowsOfWater();
         }
     }
-    public boolean isSmeltable(int row, int col){
+    private boolean isSmeltable(int row, int col){
         return this.map[row][col] instanceof SmeltableBlock;
     }
-    public SmeltableBlock smeltableBlockPos(int row, int col){
+    public SmeltableBlock smeltableBlockPos(int row, int col) throws BlockErrorException{
         return (SmeltableBlock)this.map[row][col];
     }
     public void randFill(){
@@ -100,11 +100,16 @@ public class Map {
             }
             insert(b,row,col);
         }
+        Block f = new TorchBlock();
+        insert(f, 9,4);
     }
-    public boolean isPickable(int row, int col){
+    private boolean isPickable(int row, int col){
         return this.map[row][col].is_pickable();
     }
-    public Block gimme_pickable(int row, int col){
+    public Block gimme_pickable(int row, int col) throws BlockErrorException{
+        if(!(this.map[row][col].is_pickable())){
+            throw new BlockErrorException();
+        }
         return this.map[row][col];
     }
 }
