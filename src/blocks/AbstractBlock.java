@@ -6,8 +6,12 @@ public abstract class AbstractBlock implements Block {
     protected boolean fall_through;
     protected boolean pickable;
     protected String blockname;
+    private static int code;
+    protected int id;
     public AbstractBlock(){
         this.pickable=false;
+        code++;
+        this.id=code;
     }
 
     public char display() {
@@ -28,6 +32,11 @@ public abstract class AbstractBlock implements Block {
     public String toString(){
         return this.blockname+" ["+this.content+"]";
     }
+
+    public int getId() {
+        return this.id;
+    }
+
     public void display_in_inventory(){
         System.out.print("["+this.content+"] ");
     }
