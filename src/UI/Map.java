@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Map {
     protected Block[][] map;
-    protected final int DIM_ROWS = 10;
-    protected final int DIM_COLS = 10;
+    public static final int DIM_ROWS = 10;
+    public static final int DIM_COLS = 10;
 
     public Map() {
         map = new Block[DIM_ROWS][DIM_COLS];
@@ -100,8 +100,6 @@ public class Map {
             }
             insert(b,row,col);
         }
-        Block f = new TorchBlock();
-        insert(f, 9,4);
     }
     private boolean isPickable(int row, int col){
         return this.map[row][col].is_pickable();
