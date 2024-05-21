@@ -1,10 +1,13 @@
 package GUI;
 
+import Controller.MainSimpleController;
+import UI.MapCoordinates;
 import blocks.AirBlock;
 import blocks.Block;
 import blocks.NullBlock;
 import blocks.SandBlock;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -27,8 +30,9 @@ public class ButtonListPane extends VBox {
     Button smelt;
     Button moveBack;
     Button sortMethod;
-    public ButtonListPane(MapPane mp, InventoryPane ip){
+    public ButtonListPane(MainSimpleController mc){
         super();
+        this.setAlignment(Pos.CENTER_LEFT);
         row1 = new HBox();
         pickrow = new TextField();
         pickcol = new TextField();
@@ -39,8 +43,7 @@ public class ButtonListPane extends VBox {
             public void handle(MouseEvent mouseEvent) {
                 int row = Integer.parseInt(pickrow.getText());
                 int col = Integer.parseInt(pickcol.getText());
-                BlockPane appo = mp.get_block_at_coord(row,col);
-                mp.setCell(row,col,new AirBlock());
+                mc.pick_up_block(row,col);
             }
         });
         row1.getChildren().addAll(pickrow,pickcol,pick);
@@ -50,13 +53,32 @@ public class ButtonListPane extends VBox {
         FP.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+                int move = Integer.parseInt(moveFP.getText());
+                mc.move_into_furnace_from_inventory(move);
             }
         });
         row2.getChildren().addAll(moveFP,FP);
         smelt = new Button("Smelt");
+        smelt.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mc.smelt();
+            }
+        });
         moveBack = new Button("Move Back");
+        moveBack.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mc.move_into_inventory_from_furnace();
+            }
+        });
         sortMethod = new Button("Toggle Inventory Sorting");
+        sortMethod.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // hehe no
+            }
+        });
         super.getChildren().addAll(row1,row2,smelt,moveBack,sortMethod);
     }
 }

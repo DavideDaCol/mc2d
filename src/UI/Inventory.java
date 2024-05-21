@@ -3,6 +3,7 @@ package UI;
 import blocks.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -19,6 +20,9 @@ public class Inventory {
             iter.next().display_in_inventory();
         }
         System.out.println();
+    }
+    public Collection<Block> getInventory(){
+        return this.invSpace;
     }
     public void add_block(Block b){
         this.invSpace.add(b);
@@ -50,5 +54,8 @@ public class Inventory {
         if(this.comp instanceof AlphabeticalBlockComparator){
             this.comp = new BlockComparator();
         } else this.comp = new AlphabeticalBlockComparator();
+    }
+    public Iterator<Block> getIter(){
+        return this.invSpace.iterator();
     }
 }

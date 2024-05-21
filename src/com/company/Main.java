@@ -1,7 +1,15 @@
 package com.company;
 
 
+import Controller.FurnaceSimpleController;
+import Controller.InventorySimpleController;
+import Controller.MainSimpleController;
+import Controller.MapSimpleController;
 import GUI.*;
+import UI.Furnace;
+import UI.Inventory;
+import UI.MainView;
+import UI.Map;
 import blocks.Block;
 import blocks.GlassBlock;
 import blocks.RawIronBlock;
@@ -34,19 +42,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        BlockPane a = new BlockPane(new SandBlock());
-        BlockPane b = new BlockPane(new RawIronBlock());
-        BlockPane c = new BlockPane(new GlassBlock());
-        InventoryPane test = new InventoryPane();
-        test.getChildren().addAll(a,b,c);
-        FurnacePane mainFurnace = new FurnacePane();
-        MapPane mainmap = new MapPane();
-        mainmap.randFillTest();
-        MainGUI mainview = new MainGUI(mainmap,new ButtonListPane(mainmap,test),mainFurnace);
-        Group root = new Group(mainview);
-        Scene scene = new Scene(root, 700, 700);
+        MainSimpleController mc = new MainSimpleController(new MainView());
+        MainGUI layout = mc.getMainGUI();
+        Scene scene = new Scene(layout);
         stage.setTitle("MC2D");
         stage.setScene(scene);
         stage.show();
+
     }
 }

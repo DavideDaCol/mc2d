@@ -20,10 +20,17 @@ public class Furnace {
         this.output = sb.smelt();
     }
     public SmeltableBlock getInput(){
-        SmeltableBlock s = this.input;
+        return this.input;
+    }
+    public Block getOutput(){
+        return this.output;
+    }
+
+    public SmeltableBlock pickInput(){
+        SmeltableBlock i = this.input;
         this.input = new NullBlock();
         this.output = new NullBlock();
-        return s;
+        return i;
     }
 
     public Block smelt() {

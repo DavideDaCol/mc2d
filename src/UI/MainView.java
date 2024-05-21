@@ -74,7 +74,16 @@ public class MainView {
             System.out.println("can't pick given block");
         }
     }
-    public void toggle_inventory_comparator(){
 
+    public Furnace getMainFurnace() {
+        return MainFurnace;
+    }
+
+    public Inventory getMainInventory() {
+        return MainInventory;
+    }
+
+    public Map getMainMap() {
+        return MainMap;
     }
 }

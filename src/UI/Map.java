@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Map {
     protected Block[][] map;
-    public static final int DIM_ROWS = 10;
-    public static final int DIM_COLS = 10;
+    public static final int DIM_ROWS = 8;
+    public static final int DIM_COLS = 8;
 
     public Map() {
         map = new Block[DIM_ROWS][DIM_COLS];
@@ -24,6 +24,21 @@ public class Map {
             }
             System.out.println();
         }
+    }
+
+    public Block[][] getMap() {
+        return map;
+    }
+
+    public Block getBlock (int row, int col){
+        Block pos;
+        if (row >= DIM_ROWS || col >= DIM_COLS || row < 0 || col < 0) {
+            System.out.println("coordinates are out of bounds");
+            pos = new NullBlock();
+        } else {
+            pos = this.map[row][col];
+        }
+        return pos;
     }
 
     public void change_cell(int x, int y) {
